@@ -323,6 +323,7 @@
   const ownerClass = { "中央部门": "central", "地方公办": "", "民办": "private", "合作办学": "coop" };
   const sourceName = { amap: "高德", baidu: "百度", tianditu: "天地图", "province-scatter": "省级散点" };
   const confidenceName = { high: "高置信", medium: "中置信", low: "低置信" };
+  const originalSchoolOrder = new Map(data.schools.map((school, index) => [school.id, index]));
   const MAJOR_PROFILES = {
     "北京大学": [
       ["哲学", "A+", "教育部第四轮学科评估"],
@@ -620,7 +621,22 @@
       const hay = `${s.name} ${s.city} ${s.province} ${s.department} ${s.remark} ${s.rank} ${(s.tags || []).join(" ")}`.toLowerCase();
       const queryOk = !query || hay.includes(query);
       return provinceOk && cityOk && ownerOk && rankOk && queryOk;
-    });
+    }).sort(compareSchoolsForView);
+  }
+
+  function rankPriority(s) {
+    const tags = s.tags || [];
+    if (s.rank === "985" || tags.includes("985")) return 0;
+    if (s.rank === "211" || tags.includes("211")) return 1;
+    return 2;
+  }
+
+  function compareSchoolsForView(a, b) {
+    const originalDiff = (originalSchoolOrder.get(a.id) ?? 0) - (originalSchoolOrder.get(b.id) ?? 0);
+    const scopedToPlace = state.province !== "全部" || state.city !== "全部";
+    if (!scopedToPlace && (a.province !== b.province || a.city !== b.city)) return originalDiff;
+    const rankDiff = rankPriority(a) - rankPriority(b);
+    return rankDiff || originalDiff;
   }
 
   function update() {
