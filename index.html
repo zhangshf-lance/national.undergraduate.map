@@ -17,12 +17,12 @@
   #app { position: relative; width: 100vw; height: 100vh; }
   .topbar {
     position: absolute; top: 0; left: 0; right: 0; z-index: 1000;
-    min-height: 64px; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    min-height: 64px; padding: 8px 16px; display: grid; grid-template-columns: minmax(210px, 1fr) auto minmax(210px, 1fr); align-items: center; gap: 14px;
     background: rgba(255,255,255,.96); border-bottom: 1px solid rgba(0,0,0,.06);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 1px 8px rgba(0,0,0,.04);
   }
-  .topbar-left { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1; }
+  .topbar-left { display: contents; }
   .brand { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
   .brand h1 {
     margin: 0; font-size: 16px; font-weight: 600; letter-spacing: .5px; white-space: nowrap;
@@ -30,7 +30,7 @@
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   }
   .brand span { color: #6b7280; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .top-controls { display: flex; align-items: center; gap: 10px; min-width: 0; flex-wrap: wrap; }
+  .top-controls { display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 0; flex-wrap: wrap; }
   .select-field {
     display: grid; gap: 3px; min-width: 128px;
   }
@@ -52,7 +52,7 @@
   .select-field.tier .top-select { border-color: #fecdd3; background: #fff1f2; color: #9f1239; }
   .top-select:focus { border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 3px rgba(59,130,246,.12); }
   .top-select option:disabled { color: #9ca3af; }
-  .stats { display: flex; align-items: center; gap: 8px; }
+  .stats { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
   .stat {
     min-width: 76px; height: 36px; padding: 5px 10px; border-radius: 8px;
     background: #f3f4f6; border: 1px solid #e5e7eb;
@@ -257,6 +257,7 @@
   }
   @media (max-width: 900px) {
     .topbar { align-items: flex-start; padding: 8px 10px; gap: 8px; flex-wrap: wrap; }
+    .topbar { display: flex; }
     .topbar-left { display: grid; gap: 8px; width: 100%; }
     .brand { display: block; }
     .brand span { display: block; margin-top: 3px; max-width: calc(100vw - 24px); }
