@@ -30,19 +30,26 @@
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   }
   .brand span { color: #6b7280; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .top-controls { display: flex; align-items: center; gap: 8px; min-width: 0; flex-wrap: wrap; }
+  .top-controls { display: flex; align-items: center; gap: 10px; min-width: 0; flex-wrap: wrap; }
   .select-field {
-    display: grid; gap: 2px; min-width: 112px;
+    display: grid; gap: 3px; min-width: 128px;
   }
-  .select-field.region { min-width: 132px; }
+  .select-field.region { min-width: 142px; }
   .select-field label {
-    color: #9ca3af; font-size: 10px; font-weight: 700; line-height: 1; letter-spacing: 0;
+    font-size: 12px; font-weight: 850; line-height: 1; letter-spacing: 0;
   }
+  .select-field.region label { color: #1d4ed8; }
+  .select-field.owner label { color: #b45309; }
+  .select-field.tier label { color: #be123c; }
   .top-select {
-    height: 32px; min-width: 0; border: 1px solid #e5e7eb; border-radius: 8px;
-    background: #f9fafb; color: #1f2937; font: inherit; font-size: 12px; font-weight: 600;
+    height: 38px; min-width: 0; border: 2px solid #e5e7eb; border-radius: 8px;
+    background: #fff; color: #1f2937; font: inherit; font-size: 15px; font-weight: 800;
     padding: 0 28px 0 9px; outline: none; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
   }
+  .select-field.region .top-select { border-color: #bfdbfe; background: #eff6ff; color: #1e40af; }
+  .select-field.owner .top-select { border-color: #fed7aa; background: #fff7ed; color: #9a3412; }
+  .select-field.tier .top-select { border-color: #fecdd3; background: #fff1f2; color: #9f1239; }
   .top-select:focus { border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 3px rgba(59,130,246,.12); }
   .top-select option:disabled { color: #9ca3af; }
   .stats { display: flex; align-items: center; gap: 8px; }
@@ -285,10 +292,6 @@
         <span id="source-line">教育部全国普通高等学校名单</span>
       </div>
       <div class="top-controls" aria-label="分类筛选">
-        <div class="select-field">
-          <label for="owner-select">办学性质</label>
-          <select id="owner-select" class="top-select"></select>
-        </div>
         <div class="select-field region">
           <label for="province-select">省份</label>
           <select id="province-select" class="top-select"></select>
@@ -297,7 +300,11 @@
           <label for="city-select">城市</label>
           <select id="city-select" class="top-select"></select>
         </div>
-        <div class="select-field">
+        <div class="select-field owner">
+          <label for="owner-select">办学性质</label>
+          <select id="owner-select" class="top-select"></select>
+        </div>
+        <div class="select-field tier">
           <label for="tier-select">学校层次</label>
           <select id="tier-select" class="top-select"></select>
         </div>
