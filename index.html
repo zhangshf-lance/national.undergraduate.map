@@ -86,6 +86,7 @@
   .search:focus { border-color: #3b82f6; background: #fff; }
   .filters { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 4px; margin-top: 8px; }
   .rank-filters { grid-template-columns: repeat(4, minmax(0,1fr)); }
+  .classify-tabs { grid-template-columns: repeat(4, minmax(0,1fr)); margin-top: 8px; }
   .filter-btn {
     height: 26px; border: 1px solid #e5e7eb; border-radius: 6px; background: #f3f4f6;
     color: #6b7280; font: inherit; font-size: 12px; font-weight: 500; cursor: pointer;
@@ -123,6 +124,12 @@
   }
   .school-item { padding: 10px 16px; border-left: 3px solid transparent; display: block; }
   .school-item.active { background: #fff7ed; border-left-color: #ea580c; }
+  .group-heading {
+    position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between;
+    padding: 7px 16px; background: rgba(249,250,251,.96); border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;
+    color: #374151; font-size: 12px; font-weight: 700; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .group-heading span:last-child { color: #9ca3af; font-weight: 600; }
   .school-name { display: flex; gap: 7px; align-items: center; font-weight: 650; color: #374151; }
   .dot-key { width: 8px; height: 8px; border-radius: 50%; background: #3b82f6; flex: 0 0 auto; }
   .dot-key.private { background: #ea580c; }
@@ -237,6 +244,7 @@
     .legend, .notice { display: none; }
     .detail { display: none; }
     .rank-filters { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .classify-tabs { grid-template-columns: repeat(4, minmax(0,1fr)); }
   }
   @media (max-width: 620px) {
     .stats { display: none; }
@@ -274,6 +282,7 @@
     <div class="panel-head">
       <div class="panel-title"><b>本科院校</b><span id="list-count">0 所</span></div>
       <input id="school-search" class="search" placeholder="搜索学校、城市、主管部门" />
+      <div id="classify-tabs" class="filters classify-tabs"></div>
       <div id="rank-filters" class="filters rank-filters"></div>
       <div id="filters" class="filters"></div>
     </div>
@@ -296,7 +305,7 @@
 <script>
 (() => {
   const data = window.UNDERGRAD_MAP_DATA;
-  const state = { province: "全部", city: "全部", owner: "全部", rank: "全部", query: "", provinceQuery: "", selectedId: "", provincePanelOpen: true, schoolPanelOpen: true };
+  const state = { province: "全部", city: "全部", owner: "全部", rank: "全部", groupBy: "none", query: "", provinceQuery: "", selectedId: "", provincePanelOpen: true, schoolPanelOpen: true };
   const els = {
     total: document.getElementById("total-count"),
     provinceCount: document.getElementById("province-count"),
@@ -308,6 +317,7 @@
     schoolSearch: document.getElementById("school-search"),
     schoolList: document.getElementById("school-list"),
     listCount: document.getElementById("list-count"),
+    classifyTabs: document.getElementById("classify-tabs"),
     filters: document.getElementById("filters"),
     rankFilters: document.getElementById("rank-filters"),
     detail: document.getElementById("detail"),
@@ -497,6 +507,7 @@
     els.provinceCount.textContent = data.provinces.length;
     els.source.textContent = `${data.meta.source}，截至 ${data.meta.asOf}`;
     els.notice.textContent = data.meta.note;
+    renderClassifyTabs();
     renderFilters();
     renderProvinceList();
     renderDetail(null);
@@ -556,6 +567,23 @@
         state.rank = btn.dataset.rank;
         renderFilters();
         update();
+      });
+    });
+  }
+
+  function renderClassifyTabs() {
+    const modes = [
+      ["none", "列表"],
+      ["ownership", "性质"],
+      ["region", "地区"],
+      ["tier", "层次"]
+    ];
+    els.classifyTabs.innerHTML = modes.map(([mode, label]) => `<button class="filter-btn${mode === state.groupBy ? " active" : ""}" data-group="${mode}">${label}</button>`).join("");
+    els.classifyTabs.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.groupBy = btn.dataset.group;
+        renderClassifyTabs();
+        renderSchoolList(filteredSchools());
       });
     });
   }
@@ -718,12 +746,61 @@
   }
 
   function renderSchoolList(schools) {
-    const view = schools.slice(0, 260);
+    const limit = 260;
+    const view = schools.slice(0, limit);
     const more = schools.length > view.length ? `<div class="school-meta" style="padding:8px 14px">已显示前 ${view.length} 所，可继续搜索缩小范围。</div>` : "";
-    els.schoolList.innerHTML = view.map(s => schoolItemHtml(s)).join("") + more;
+    els.schoolList.innerHTML = state.groupBy === "none"
+      ? view.map(s => schoolItemHtml(s)).join("") + more
+      : groupedSchoolListHtml(schools, limit) + more;
     els.schoolList.querySelectorAll(".school-item").forEach(btn => {
       btn.addEventListener("click", () => selectSchool(btn.dataset.id, true));
     });
+  }
+
+  function groupedSchoolListHtml(schools, limit) {
+    let rendered = 0;
+    return groupedSchools(schools).map(group => {
+      const remaining = Math.max(0, limit - rendered);
+      const visibleSchools = group.schools.slice(0, remaining);
+      rendered += visibleSchools.length;
+      if (!visibleSchools.length) return "";
+      const items = visibleSchools.map(s => schoolItemHtml(s)).join("");
+      return `<div class="school-group"><div class="group-heading"><span>${group.name}</span><span>${group.schools.length} 所</span></div>${items}</div>`;
+    }).join("");
+  }
+
+  function groupedSchools(schools) {
+    const groups = new Map();
+    schools.forEach(s => {
+      const name = groupNameForSchool(s);
+      if (!groups.has(name)) groups.set(name, []);
+      groups.get(name).push(s);
+    });
+    return [...groups.entries()]
+      .map(([name, groupSchools]) => ({ name, schools: groupSchools }))
+      .sort((a, b) => groupOrder(a.name) - groupOrder(b.name) || a.name.localeCompare(b.name, "zh-CN"));
+  }
+
+  function groupOrder(name) {
+    const tierIndex = ["985 高校", "211 高校", "普通本科（一本/二本未细分）"].indexOf(name);
+    const ownerIndex = ["中央部门", "地方公办", "民办", "合作办学"].indexOf(name);
+    if (state.groupBy === "tier") return tierIndex === -1 ? 99 : tierIndex;
+    if (state.groupBy === "ownership") return ownerIndex === -1 ? 99 : ownerIndex;
+    return 0;
+  }
+
+  function groupNameForSchool(s) {
+    if (state.groupBy === "ownership") return s.ownership || "未标注性质";
+    if (state.groupBy === "region") return state.province === "全部" ? s.province : s.city;
+    if (state.groupBy === "tier") return tierName(s);
+    return "全部";
+  }
+
+  function tierName(s) {
+    const tags = s.tags || [];
+    if (s.rank === "985" || tags.includes("985")) return "985 高校";
+    if (s.rank === "211" || tags.includes("211")) return "211 高校";
+    return "普通本科（一本/二本未细分）";
   }
 
   function schoolItemHtml(s) {
@@ -731,7 +808,7 @@
     const badges = (s.tags || []).map(tag => `<span class="badge ${tag === "985" ? "rank985" : "rank211"}">${tag}</span>`).join("");
     return `<button class="school-item${state.selectedId === s.id ? " active" : ""}" data-id="${s.id}">
       <span class="school-name"><i class="dot-key ${cls}"></i>${s.name}<span class="school-badges">${badges}</span></span>
-      <span class="school-meta">${s.province} · ${s.city} · ${s.ownership} · ${confidenceName[s.coordinateConfidence] || "未校准"} · ${sourceName[s.coordinateSource] || s.coordinateSource || "未知"}${s.remark ? " · " + s.remark : ""}</span>
+      <span class="school-meta">${tierName(s)} · ${s.province} · ${s.city} · ${s.ownership} · ${confidenceName[s.coordinateConfidence] || "未校准"} · ${sourceName[s.coordinateSource] || s.coordinateSource || "未知"}${s.remark ? " · " + s.remark : ""}</span>
     </button>`;
   }
 
