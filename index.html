@@ -235,9 +235,17 @@
     border: 1px solid rgba(15,23,42,.08); box-shadow: 0 8px 24px rgba(15,23,42,.12);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   }
-  .summary-title { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+  .summary-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
   .summary-title b { color: #111827; font-size: 15px; font-weight: 850; }
   .summary-title span { color: #b91c1c; font-size: 20px; font-weight: 900; }
+  .summary-title-main { display: inline-flex; align-items: baseline; gap: 7px; min-width: 0; }
+  .summary-clear {
+    flex: 0 0 auto; height: 28px; padding: 0 9px;
+    border: 1px solid #e5e7eb; border-radius: 7px;
+    background: #fff; color: #4b5563; font: inherit; font-size: 12px; font-weight: 800;
+    cursor: pointer; transition: background .12s ease, border-color .12s ease, color .12s ease;
+  }
+  .summary-clear:hover { background: #fff7ed; border-color: #fed7aa; color: #9a3412; }
   .summary-filter { margin-bottom: 9px; color: #6b7280; font-size: 12px; line-height: 1.45; }
   .summary-grid { display: grid; gap: 8px; }
   .summary-block { padding: 8px; border-radius: 8px; background: #f9fafb; border: 1px solid #e5e7eb; }
@@ -248,9 +256,11 @@
     border-radius: 999px; background: #fff; border: 1px solid #e5e7eb; color: #374151;
     font-size: 12px; font-weight: 700;
   }
+  .summary-tag.filterable { cursor: pointer; transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; }
+  .summary-tag.filterable:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(15,23,42,.10); }
+  .summary-tag.active { box-shadow: 0 0 0 2px rgba(234,88,12,.16); border-color: #ea580c; }
   .summary-tag b { color: #111827; font-weight: 900; }
   .summary-tag.owner { border-color: #fed7aa; background: #fff7ed; color: #9a3412; }
-  .summary-tag.region { border-color: #bfdbfe; background: #eff6ff; color: #1e40af; }
   .summary-tag.tier { border-color: #fecdd3; background: #fff1f2; color: #9f1239; }
   .leaflet-popup-content { margin: 10px 12px; min-width: 190px; }
   .leaflet-control-zoom { border: none !important; box-shadow: 0 2px 10px rgba(0,0,0,.12) !important; }
@@ -667,6 +677,7 @@
       ["全部", "全部"],
       ["985", "985"],
       ["211", "211"],
+      ["普通本科", "普通本科"],
       ["一本", "一本（暂无批次数据）"],
       ["二本", "二本（暂无批次数据）"]
     ], state.rank);
@@ -771,13 +782,14 @@
     return provinceCityCounts(p.name).some(([city]) => city.includes(query));
   }
 
-  function filteredSchools() {
+  function filteredSchools(options = {}) {
+    const exclude = options.exclude || null;
     const query = state.query.toLowerCase();
     return data.schools.filter(s => {
       const provinceOk = state.province === "全部" || s.province === state.province;
       const cityOk = state.city === "全部" || s.city === state.city;
-      const ownerOk = state.owner === "全部" || s.ownership === state.owner;
-      const rankOk = state.rank === "全部" || s.rank === state.rank || (state.rank === "211" && s.tags && s.tags.includes("211"));
+      const ownerOk = exclude === "owner" || state.owner === "全部" || s.ownership === state.owner;
+      const rankOk = exclude === "rank" || state.rank === "全部" || s.rank === state.rank || (state.rank === "211" && s.tags && s.tags.includes("211"));
       const hay = `${s.name} ${s.city} ${s.province} ${s.department} ${s.remark} ${s.rank} ${(s.tags || []).join(" ")}`.toLowerCase();
       const queryOk = !query || hay.includes(query);
       return provinceOk && cityOk && ownerOk && rankOk && queryOk;
@@ -812,15 +824,26 @@
   }
 
   function renderSummary(schools) {
-    const regionTitle = state.province === "全部" ? "地区分布（省份）" : "地区分布（城市）";
     els.summary.innerHTML = `
-      <div class="summary-title"><b>当前筛选汇总</b><span>${schools.length}</span></div>
+      <div class="summary-title">
+        <div class="summary-title-main"><b>当前筛选汇总</b><span>${schools.length}</span></div>
+        <button class="summary-clear" id="summary-clear" type="button">清除选择</button>
+      </div>
       <div class="summary-filter">${filterSummaryText()}</div>
       <div class="summary-grid">
-        ${summaryBlock("办学性质", countBy(schools, s => s.ownership || "未标注性质"), "owner")}
-        ${summaryBlock(regionTitle, countBy(schools, s => state.province === "全部" ? s.province : s.city), "region")}
-        ${summaryBlock("学校层次", countBy(schools, tierName), "tier")}
+        ${summaryBlock("办学性质", countBy(filteredSchools({ exclude: "owner" }), s => s.ownership || "未标注性质"), "owner")}
+        ${summaryBlock("学校层次", countBy(filteredSchools({ exclude: "rank" }), tierName), "tier")}
       </div>`;
+    const clearBtn = els.summary.querySelector("#summary-clear");
+    if (clearBtn) clearBtn.addEventListener("click", clearSummarySelection);
+    els.summary.querySelectorAll(".summary-tag.filterable").forEach(tag => {
+      tag.addEventListener("click", () => applySummaryFilter(tag.dataset.facet, tag.dataset.value));
+      tag.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        applySummaryFilter(tag.dataset.facet, tag.dataset.value);
+      });
+    });
   }
 
   function filterSummaryText() {
@@ -845,10 +868,70 @@
   function summaryBlock(title, counts, className) {
     const visible = counts.slice(0, 8);
     const tags = visible.length
-      ? visible.map(([name, count]) => `<span class="summary-tag ${className}">${name}<b>${count}</b></span>`).join("")
+      ? visible.map(([name, count]) => {
+        const active = isSummaryTagActive(className, name) ? " active" : "";
+        return `<span class="summary-tag ${className} filterable${active}" role="button" tabindex="0" data-facet="${escapeAttr(className)}" data-value="${escapeAttr(name)}">${escapeHtml(name)}<b>${count}</b></span>`;
+      }).join("")
       : `<span class="summary-tag ${className}">暂无数据<b>0</b></span>`;
     const more = counts.length > visible.length ? `<span class="summary-tag">+${counts.length - visible.length}</span>` : "";
     return `<div class="summary-block"><h3>${title}</h3><div class="summary-tags">${tags}${more}</div></div>`;
+  }
+
+  function isSummaryTagActive(facet, value) {
+    if (facet === "owner") return state.owner === value;
+    if (facet === "tier") return state.rank === tierValueFromName(value);
+    return false;
+  }
+
+  function tierValueFromName(name) {
+    if (name === "985 高校") return "985";
+    if (name === "211 高校") return "211";
+    return "普通本科";
+  }
+
+  function applySummaryFilter(facet, value) {
+    if (facet === "owner") {
+      state.owner = state.owner === value ? "全部" : value;
+    } else if (facet === "tier") {
+      const nextRank = tierValueFromName(value);
+      state.rank = state.rank === nextRank ? "全部" : nextRank;
+    }
+    clearSelection(false);
+    renderTopSelects();
+    renderFilters();
+    renderDetail(null);
+    update();
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  function escapeAttr(value) {
+    return escapeHtml(value).replace(/"/g, "&quot;");
+  }
+
+  function clearSummarySelection() {
+    state.province = "全部";
+    state.city = "全部";
+    state.owner = "全部";
+    state.rank = "全部";
+    state.groupBy = "none";
+    state.query = "";
+    state.provinceQuery = "";
+    clearSelection(false);
+    if (els.schoolSearch) els.schoolSearch.value = "";
+    if (els.provinceSearch) els.provinceSearch.value = "";
+    renderTopSelects();
+    renderClassifyTabs();
+    renderFilters();
+    renderProvinceList();
+    renderDetail(null);
+    update();
+    if (map) map.setView([34.7, 104.8], 4);
   }
 
   function renderMap(schools) {

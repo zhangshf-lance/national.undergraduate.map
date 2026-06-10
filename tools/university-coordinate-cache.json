@@ -1,11 +1,11 @@
 {
   "meta": {
-    "updatedAt": "2026-06-08T08:29:44.780Z",
+    "updatedAt": "2026-06-10T02:21:05.860Z",
     "providers": {
       "amap": true,
-      "baidu": true,
       "tianditu": true
-    }
+    },
+    "reviewNote": "Rejected affiliated-school/hospital/nursery matches for selected universities."
   },
   "schools": {
     "4111010001": {
@@ -150454,7 +150454,7 @@
       "updatedAt": "2026-06-08T08:41:56.605Z"
     },
     "4143014900": {
-      "version": 4,
+      "version": 5,
       "id": "4143014900",
       "name": "长沙科技学院",
       "city": "长沙市",
@@ -150468,7 +150468,8 @@
         "score": 0,
         "source": "province-scatter",
         "providers": [],
-        "reason": "no reliable provider match"
+        "candidate": null,
+        "reason": "provider match rejected during manual review"
       },
       "providers": {
         "amap": [
@@ -150482,7 +150483,7 @@
               113.019466,
               28.12398
             ],
-            "baseScore": 29
+            "baseScore": 34
           },
           {
             "name": "湖南科技职业学院(天心校区)北院",
@@ -150494,7 +150495,7 @@
               112.982147,
               28.00849
             ],
-            "baseScore": 29
+            "baseScore": 34
           },
           {
             "name": "长沙职业技术学院",
@@ -150506,7 +150507,7 @@
               112.831171,
               28.217307
             ],
-            "baseScore": 29
+            "baseScore": 86
           },
           {
             "name": "长沙航空职业技术学院(圭塘校区)",
@@ -150518,7 +150519,7 @@
               113.039483,
               28.145222
             ],
-            "baseScore": 29
+            "baseScore": 86
           },
           {
             "name": "长沙科技职业学院",
@@ -150530,10 +150531,9 @@
               113.187591,
               28.357568
             ],
-            "baseScore": 29
+            "baseScore": 86
           }
         ],
-        "baidu": [],
         "tianditu": [
           {
             "name": "多哆基(科技学院店)",
@@ -150545,7 +150545,7 @@
               113.021347,
               28.125739
             ],
-            "baseScore": 29
+            "baseScore": 58
           },
           {
             "name": "湖南省林业科技学院2栋",
@@ -150557,7 +150557,7 @@
               112.995601,
               28.133596
             ],
-            "baseScore": 29
+            "baseScore": 58
           },
           {
             "name": "湖南省林业科技学院7栋",
@@ -150569,7 +150569,7 @@
               112.994947,
               28.134066
             ],
-            "baseScore": 29
+            "baseScore": 58
           },
           {
             "name": "湖南省林业科技学院4栋",
@@ -150581,7 +150581,7 @@
               112.995565,
               28.13409
             ],
-            "baseScore": 29
+            "baseScore": 58
           },
           {
             "name": "湖南省林业科技学院9栋",
@@ -150593,11 +150593,11 @@
               112.994944,
               28.133652
             ],
-            "baseScore": 29
+            "baseScore": 58
           }
         ]
       },
-      "updatedAt": "2026-06-08T08:41:57.441Z"
+      "updatedAt": "2026-06-10T02:21:05.859Z"
     },
     "4144010558": {
       "version": 4,
@@ -170641,7 +170641,7 @@
       "updatedAt": "2026-06-08T08:43:44.398Z"
     },
     "4146014829": {
-      "version": 4,
+      "version": 5,
       "id": "4146014829",
       "name": "海南比勒费尔德应用科学大学",
       "city": "陵水黎族自治县",
@@ -170655,14 +170655,14 @@
         "score": 0,
         "source": "province-scatter",
         "providers": [],
-        "reason": "no reliable provider match"
+        "candidate": null,
+        "reason": "no reliable recalibration match"
       },
       "providers": {
         "amap": [],
-        "baidu": [],
         "tianditu": []
       },
-      "updatedAt": "2026-06-08T08:43:45.083Z"
+      "updatedAt": "2026-06-10T02:20:08.169Z"
     },
     "4146014944": {
       "version": 4,
@@ -188438,37 +188438,28 @@
       "updatedAt": "2026-06-08T08:45:08.792Z"
     },
     "4152013818": {
-      "version": 4,
+      "version": 5,
       "id": "4152013818",
       "name": "贵州轻工职业大学",
       "city": "贵阳市",
       "province": "贵州省",
       "selected": {
         "point": [
-          106.9148,
-          26.32831
+          106.620351,
+          26.387211
         ],
-        "confidence": "low",
-        "score": 57,
-        "source": "province-scatter",
+        "confidence": "high",
+        "score": 100,
+        "source": "tianditu",
         "providers": [
-          "amap",
-          "tianditu"
+          "tianditu",
+          "amap"
         ],
-        "reason": "provider match did not reach confidence threshold",
         "candidate": {
-          "provider": "amap",
-          "name": "贵州轻工职业技术学院家属区",
-          "address": "新村路10号",
-          "city": "贵阳市",
-          "province": "贵州省",
-          "point": [
-            106.702519,
-            26.543882
-          ],
-          "baseScore": 57,
-          "finalScore": 57,
-          "agreementMeters": 18561
+          "provider": "tianditu",
+          "name": "贵州轻工职业技术学院南门",
+          "address": "花溪大学城",
+          "agreementMeters": 234
         }
       },
       "providers": {
@@ -188483,7 +188474,7 @@
               106.634243,
               26.671375
             ],
-            "baseScore": 29
+            "baseScore": 34
           },
           {
             "name": "贵州轻工职业技术学院家属区",
@@ -188495,7 +188486,7 @@
               106.702519,
               26.543882
             ],
-            "baseScore": 57
+            "baseScore": 86
           },
           {
             "name": "轻工业学校",
@@ -188507,7 +188498,7 @@
               106.702345,
               26.543548
             ],
-            "baseScore": 29
+            "baseScore": 34
           },
           {
             "name": "贵州师范大学-云创贵安谷",
@@ -188519,7 +188510,7 @@
               106.622673,
               26.386871
             ],
-            "baseScore": 29
+            "baseScore": 68
           },
           {
             "name": "山地环境重点实验室",
@@ -188531,10 +188522,9 @@
               106.619922,
               26.390669
             ],
-            "baseScore": 29
+            "baseScore": 34
           }
         ],
-        "baidu": [],
         "tianditu": [
           {
             "name": "贵州轻工职业技术学院南门",
@@ -188546,7 +188536,7 @@
               106.620351,
               26.387211
             ],
-            "baseScore": 50
+            "baseScore": 76
           },
           {
             "name": "贵州轻工职业技术学院东门",
@@ -188558,7 +188548,7 @@
               106.6268,
               26.391343
             ],
-            "baseScore": 57
+            "baseScore": 76
           },
           {
             "name": "贵州轻工职业技术学院西门",
@@ -188570,7 +188560,7 @@
               106.619082,
               26.391513
             ],
-            "baseScore": 57
+            "baseScore": 76
           },
           {
             "name": "贵州轻工职业技术学院停车场",
@@ -188582,7 +188572,7 @@
               106.62582,
               26.39299
             ],
-            "baseScore": 50
+            "baseScore": 76
           },
           {
             "name": "贵州轻工职业技术学院停车场",
@@ -188594,11 +188584,11 @@
               106.620412,
               26.387164
             ],
-            "baseScore": 50
+            "baseScore": 76
           }
         ]
       },
-      "updatedAt": "2026-06-08T08:45:13.110Z"
+      "updatedAt": "2026-06-10T02:20:08.868Z"
     },
     "4152014223": {
       "version": 4,
@@ -205140,7 +205130,7 @@
       "updatedAt": "2026-06-08T08:46:25.695Z"
     },
     "4161014945": {
-      "version": 4,
+      "version": 5,
       "id": "4161014945",
       "name": "西安戏剧学院",
       "city": "西安市",
@@ -205154,7 +205144,8 @@
         "score": 0,
         "source": "province-scatter",
         "providers": [],
-        "reason": "no reliable provider match"
+        "candidate": null,
+        "reason": "no reliable recalibration match"
       },
       "providers": {
         "amap": [
@@ -205168,7 +205159,7 @@
               108.950665,
               34.249052
             ],
-            "baseScore": 29
+            "baseScore": 34
           },
           {
             "name": "陕西省戏曲研究院剧场",
@@ -205180,7 +205171,7 @@
               108.949635,
               34.248679
             ],
-            "baseScore": 36
+            "baseScore": 34
           },
           {
             "name": "戏剧研究院南门店",
@@ -205192,7 +205183,7 @@
               108.950356,
               34.248746
             ],
-            "baseScore": 21
+            "baseScore": 24
           },
           {
             "name": "陕西艺术职业学院戏曲楼",
@@ -205204,7 +205195,7 @@
               108.949564,
               34.236526
             ],
-            "baseScore": 29
+            "baseScore": 34
           },
           {
             "name": "陕西艺术职业学院-戏曲系",
@@ -205216,10 +205207,9 @@
               108.949585,
               34.236498
             ],
-            "baseScore": 29
+            "baseScore": 34
           }
         ],
-        "baidu": [],
         "tianditu": [
           {
             "name": "西安交通大学戏剧学院",
@@ -205231,11 +205221,11 @@
               108.950458,
               34.248993
             ],
-            "baseScore": 22
+            "baseScore": 24
           }
         ]
       },
-      "updatedAt": "2026-06-08T08:46:28.631Z"
+      "updatedAt": "2026-06-10T02:20:09.545Z"
     },
     "4162010730": {
       "version": 4,
@@ -215935,7 +215925,7 @@
       "updatedAt": "2026-06-08T08:47:20.870Z"
     },
     "4165014947": {
-      "version": 4,
+      "version": 5,
       "id": "4165014947",
       "name": "新疆理工职业大学",
       "city": "喀什地区",
@@ -215949,7 +215939,8 @@
         "score": 0,
         "source": "province-scatter",
         "providers": [],
-        "reason": "no reliable provider match"
+        "candidate": null,
+        "reason": "provider match rejected during manual review"
       },
       "providers": {
         "amap": [
@@ -215963,7 +215954,7 @@
               76.105397,
               39.477023
             ],
-            "baseScore": 29
+            "baseScore": 86
           },
           {
             "name": "新疆大学(喀什校区)(建设中)",
@@ -215975,7 +215966,7 @@
               76.118733,
               39.468703
             ],
-            "baseScore": 29
+            "baseScore": 86
           },
           {
             "name": "喀什开放大学",
@@ -215987,7 +215978,7 @@
               75.961839,
               39.47533
             ],
-            "baseScore": 29
+            "baseScore": 34
           },
           {
             "name": "喀什理工职业技术学院",
@@ -215999,7 +215990,7 @@
               77.216744,
               38.409768
             ],
-            "baseScore": 29
+            "baseScore": 34
           },
           {
             "name": "喀什理工职业技术学院体育场",
@@ -216011,13 +216002,12 @@
               77.215115,
               38.412655
             ],
-            "baseScore": 29
+            "baseScore": 34
           }
         ],
-        "baidu": [],
         "tianditu": []
       },
-      "updatedAt": "2026-06-08T08:47:21.620Z"
+      "updatedAt": "2026-06-10T02:21:05.860Z"
     },
     "4213051721": {
       "version": 4,
@@ -216342,6 +216332,405 @@
         ]
       },
       "updatedAt": "2026-06-08T08:32:10.644Z"
+    },
+    "985-nudt": {
+      "version": 5,
+      "id": "985-nudt",
+      "name": "国防科技大学",
+      "city": "长沙市",
+      "province": "湖南省",
+      "selected": {
+        "point": [
+          112.99718,
+          28.2232
+        ],
+        "confidence": "high",
+        "score": 95,
+        "source": "manual-dxsbb",
+        "providers": [
+          "dxsbb"
+        ],
+        "candidate": {
+          "name": "国防科技大学",
+          "address": "湖南省长沙市开福区德雅路109号",
+          "provider": "manual",
+          "agreementMeters": null
+        },
+        "reason": "manual reviewed campus coordinate"
+      },
+      "providers": {
+        "amap": [
+          {
+            "name": "国防科大(公交站)",
+            "address": "115路;132路;136路;150路;216路;222路;358路;366路;403路;408路;501路;704路;801路;901路;901路(19点后);地铁微巴M405线",
+            "city": "长沙市",
+            "province": "湖南省",
+            "type": "交通设施服务;公交车站;公交车站相关",
+            "point": [
+              112.993742,
+              28.233176
+            ],
+            "baseScore": 34
+          },
+          {
+            "name": "国防科技大学附属中学",
+            "address": "德汇路79号",
+            "city": "长沙市",
+            "province": "湖南省",
+            "type": "科教文化服务;学校;中学",
+            "point": [
+              113.003343,
+              28.242823
+            ],
+            "baseScore": 86
+          },
+          {
+            "name": "国防科技大学附属小学",
+            "address": "四方坪双拥路",
+            "city": "长沙市",
+            "province": "湖南省",
+            "type": "科教文化服务;学校;小学",
+            "point": [
+              112.993408,
+              28.239874
+            ],
+            "baseScore": 86
+          },
+          {
+            "name": "中国人民解放军国防科技大学医院",
+            "address": "万家丽北路与特立西路交叉口西南200米",
+            "city": "长沙市",
+            "province": "湖南省",
+            "type": "医疗保健服务;综合医院;综合医院",
+            "point": [
+              113.047367,
+              28.260279
+            ],
+            "baseScore": 86
+          },
+          {
+            "name": "国防科技大学第三附属幼儿园",
+            "address": "德邦路与德雅路交叉口东南120米",
+            "city": "长沙市",
+            "province": "湖南省",
+            "type": "科教文化服务;学校;幼儿园",
+            "point": [
+              113.004056,
+              28.227853
+            ],
+            "baseScore": 86
+          }
+        ],
+        "tianditu": [
+          {
+            "name": "国防科技大学附属小学",
+            "address": "湖南省长沙市开福区四方坪街道",
+            "city": "长沙市",
+            "province": "",
+            "type": "101",
+            "point": [
+              112.993456,
+              28.239907
+            ],
+            "baseScore": 76
+          },
+          {
+            "name": "国防科技大学第三附属幼儿园",
+            "address": "湖南省长沙市开福区东风路街道德雅路1116长沙工程兵学院生活区",
+            "city": "长沙市",
+            "province": "",
+            "type": "101",
+            "point": [
+              113.003958,
+              28.227778
+            ],
+            "baseScore": 76
+          },
+          {
+            "name": "颐和沐语酒店(长沙国防科技大学四方坪地铁站店)",
+            "address": "三一大道268",
+            "city": "长沙市",
+            "province": "",
+            "type": "101",
+            "point": [
+              112.998685,
+              28.233224
+            ],
+            "baseScore": 24
+          },
+          {
+            "name": "中国人民解放军国防科技大学医院",
+            "address": "湖南省长沙市长沙县湘龙街道万家丽北路一段168号正南方向190米",
+            "city": "长沙市",
+            "province": "",
+            "type": "101",
+            "point": [
+              113.047446,
+              28.260124
+            ],
+            "baseScore": 76
+          }
+        ]
+      },
+      "updatedAt": "2026-06-10T02:21:05.860Z"
+    },
+    "211-naval-medical": {
+      "version": 5,
+      "id": "211-naval-medical",
+      "name": "海军军医大学",
+      "city": "上海市",
+      "province": "上海市",
+      "selected": {
+        "point": [
+          121.5328,
+          31.3074
+        ],
+        "confidence": "high",
+        "score": 95,
+        "source": "manual-neu-211",
+        "providers": [
+          "neu-211"
+        ],
+        "candidate": {
+          "name": "海军军医大学",
+          "address": "上海市杨浦区翔殷路800号",
+          "provider": "manual",
+          "agreementMeters": null
+        },
+        "reason": "manual reviewed campus coordinate"
+      },
+      "providers": {
+        "amap": [
+          {
+            "name": "海军军医大学第一附属医院",
+            "address": "长海路168号",
+            "city": "上海市",
+            "province": "上海市",
+            "type": "医疗保健服务;综合医院;三级甲等医院",
+            "point": [
+              121.523706,
+              31.310563
+            ],
+            "baseScore": 86
+          },
+          {
+            "name": "海军军医大学第三附属医院(杨浦院区)",
+            "address": "长海路225-1号附近",
+            "city": "上海市",
+            "province": "上海市",
+            "type": "医疗保健服务;综合医院;三级甲等医院|医疗保健服务;专科医院;专科医院",
+            "point": [
+              121.525754,
+              31.312184
+            ],
+            "baseScore": 86
+          },
+          {
+            "name": "海军军医大学东方肝胆外科研究所",
+            "address": "长海路225号",
+            "city": "上海市",
+            "province": "上海市",
+            "type": "科教文化服务;科研机构;科研机构",
+            "point": [
+              121.526987,
+              31.312005
+            ],
+            "baseScore": 86
+          },
+          {
+            "name": "海军军医大学第一附属医院门诊",
+            "address": "长海路168号上海长海医院内",
+            "city": "上海市",
+            "province": "上海市",
+            "type": "医疗保健服务;综合医院;三级甲等医院",
+            "point": [
+              121.521322,
+              31.311425
+            ],
+            "baseScore": 86
+          },
+          {
+            "name": "海军军医大学第三附属医院(杨浦院区)放射治疗中心",
+            "address": "长海路225号",
+            "city": "上海市",
+            "province": "上海市",
+            "type": "医疗保健服务;综合医院;三级甲等医院",
+            "point": [
+              121.524917,
+              31.311857
+            ],
+            "baseScore": 86
+          }
+        ],
+        "tianditu": [
+          {
+            "name": "海军军医大学第一附属医院",
+            "address": "上海市杨浦区长海路168号",
+            "city": "上海市",
+            "province": "",
+            "type": "101",
+            "point": [
+              121.523262,
+              31.311565
+            ],
+            "baseScore": 76
+          },
+          {
+            "name": "海军军医大学第二附属医院",
+            "address": "上海市黄浦区凤阳路415号",
+            "city": "上海市",
+            "province": "",
+            "type": "101",
+            "point": [
+              121.462915,
+              31.234795
+            ],
+            "baseScore": 76
+          },
+          {
+            "name": "海军军医大学第一附属医院虹口院区",
+            "address": "上海市虹口区东江湾路15号",
+            "city": "上海市",
+            "province": "",
+            "type": "101",
+            "point": [
+              121.476236,
+              31.267014
+            ],
+            "baseScore": 76
+          },
+          {
+            "name": "海军军医大学第三附属医院嘉定院区",
+            "address": "上海市嘉定区墨玉北路700号",
+            "city": "上海市",
+            "province": "",
+            "type": "101",
+            "point": [
+              121.160043,
+              31.323998
+            ],
+            "baseScore": 76
+          },
+          {
+            "name": "海军军医大学第三附属医院长海院区",
+            "address": "上海市杨浦区长海路225号",
+            "city": "上海市",
+            "province": "",
+            "type": "101",
+            "point": [
+              121.52477,
+              31.31184
+            ],
+            "baseScore": 76
+          }
+        ]
+      },
+      "updatedAt": "2026-06-10T02:21:05.860Z"
+    },
+    "211-air-force-medical": {
+      "version": 5,
+      "id": "211-air-force-medical",
+      "name": "空军军医大学",
+      "city": "西安市",
+      "province": "陕西省",
+      "selected": {
+        "point": [
+          108.9904,
+          34.2765
+        ],
+        "confidence": "high",
+        "score": 95,
+        "source": "manual-neu-211",
+        "providers": [
+          "neu-211"
+        ],
+        "candidate": {
+          "name": "空军军医大学",
+          "address": "陕西省西安市新城区长乐西路169号",
+          "provider": "manual",
+          "agreementMeters": null
+        },
+        "reason": "manual reviewed campus coordinate"
+      },
+      "providers": {
+        "amap": [
+          {
+            "name": "空军军医大学唐都医院",
+            "address": "新寺路1号",
+            "city": "西安市",
+            "province": "陕西省",
+            "type": "医疗保健服务;综合医院;三级甲等医院",
+            "point": [
+              109.058278,
+              34.286164
+            ],
+            "baseScore": 86
+          },
+          {
+            "name": "第四军医大学口腔医院",
+            "address": "长乐西路145号(康复路地铁站D东北口步行90米)",
+            "city": "西安市",
+            "province": "陕西省",
+            "type": "医疗保健服务;专科医院;口腔医院",
+            "point": [
+              108.981016,
+              34.271382
+            ],
+            "baseScore": 34
+          },
+          {
+            "name": "空军军医大学机关直属幼儿园",
+            "address": "长缨西路与华清西路交叉口南220米",
+            "city": "西安市",
+            "province": "陕西省",
+            "type": "科教文化服务;科教文化场所;科教文化场所",
+            "point": [
+              108.973989,
+              34.27712
+            ],
+            "baseScore": 86
+          },
+          {
+            "name": "空军军医大学第四军医大学西京医院-贵宾室",
+            "address": "长乐西路127号第四军医大学西京医院西京消化病医院F3",
+            "city": "西安市",
+            "province": "陕西省",
+            "type": "医疗保健服务;综合医院;三级甲等医院",
+            "point": [
+              108.982588,
+              34.271399
+            ],
+            "baseScore": 86
+          },
+          {
+            "name": "空军军医大学西京医院-门诊收费室",
+            "address": "长乐西路127号(康复路地铁站D东北口步行300米)",
+            "city": "西安市",
+            "province": "陕西省",
+            "type": "医疗保健服务;综合医院;三级甲等医院",
+            "point": [
+              108.98242,
+              34.271332
+            ],
+            "baseScore": 86
+          }
+        ],
+        "tianditu": [
+          {
+            "name": "空军军医大学国际口腔医学博物馆",
+            "address": "陕西省西安市新城区长乐西路145号（空军军医大学第三附属医院北院）",
+            "city": "西安市",
+            "province": "",
+            "type": "101",
+            "point": [
+              108.981286,
+              34.275818
+            ],
+            "baseScore": 76
+          }
+        ]
+      },
+      "updatedAt": "2026-06-10T02:21:05.860Z"
     }
   },
   "errors": [
