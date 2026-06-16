@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "note": "Official university pages used to collect major/discipline strengths. Add more schools here and run collect-official-major-profiles.mjs.",
+  "schools": [
+    {
+      "name": "北京大学",
+      "urls": [
+        "https://www.pku.edu.cn"
+      ]
+    },
+    {
+      "name": "清华大学",
+      "urls": [
+        "https://www.tsinghua.edu.cn"
+      ]
+    },
+    {
+      "name": "浙江大学",
+      "urls": [
+        "https://www.zju.edu.cn"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-06-10T03:07:06.420Z",
+  "keywords": [
+    "学科评估",
+    "优势学科",
+    "一流本科专业",
+    "专业排名",
+    "王牌专业",
+    "本科专业"
+  ],
+  "schools": {
+    "北京邮电大学": [],
+    "中国农业大学": [],
+    "北京林业大学": []
+  },
+  "errors": [
+    {
+      "school": "中国人民大学",
+      "error": "fetch failed"
+    },
+    {
+      "school": "北京交通大学",
+      "error": "fetch failed"
+    },
+    {
+      "school": "北京工业大学",
+      "error": "fetch failed"
+    },
+    {
+      "school": "北京航空航天大学",
+      "error": "fetch failed"
+    },
+    {
+      "school": "北京理工大学",
+      "error": "fetch failed"
+    },
+    {
+      "school": "北京科技大学",
+      "error": "fetch failed"
+    },
+    {
+      "school": "北京化工大学",
+      "error": "fetch failed"
+    }
+  ]
+}
