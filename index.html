@@ -356,6 +356,7 @@
       <div class="stat"><b id="total-count">0</b><small>本科院校</small></div>
       <div class="stat"><b id="province-count">0</b><small>省级地区</small></div>
       <div class="stat"><b id="visible-count">0</b><small>当前显示</small></div>
+      <div class="stat" title="线上由访问统计服务累计，离线时显示本机访问用户"><b id="busuanzi_value_site_uv">...</b><small>访问用户</small></div>
     </div>
   </header>
   <div id="map"><div id="fallback-map" class="fallback-map"></div></div>
@@ -394,6 +395,7 @@
 </div>
 <script src="data.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script>
 (() => {
   const data = window.UNDERGRAD_MAP_DATA;
@@ -402,6 +404,7 @@
     total: document.getElementById("total-count"),
     provinceCount: document.getElementById("province-count"),
     visible: document.getElementById("visible-count"),
+    visitors: document.getElementById("busuanzi_value_site_uv"),
     source: document.getElementById("source-line"),
     notice: document.getElementById("notice"),
     summary: document.getElementById("summary-panel"),
@@ -450,7 +453,26 @@
     syncPanelVisibility();
     initMap();
     bindEvents();
+    initVisitorCount();
     update();
+  }
+
+  function initVisitorCount() {
+    if (!els.visitors) return;
+    const fallback = () => {
+      const current = els.visitors.textContent.trim();
+      if (current && current !== "...") return;
+      const key = "undergrad-map-visitor-id";
+      try {
+        if (!localStorage.getItem(key)) {
+          localStorage.setItem(key, `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+        }
+        els.visitors.textContent = "1";
+      } catch (error) {
+        els.visitors.textContent = "1";
+      }
+    };
+    window.setTimeout(fallback, 2500);
   }
 
   function initMap() {
