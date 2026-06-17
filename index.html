@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --topbar-height: 64px; --content-gap: 8px; }
   html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
@@ -59,7 +60,7 @@
   }
   .stat b { display: block; font-size: 15px; color: #b91c1c; line-height: 15px; }
   .stat small { display: block; color: #6b7280; font-size: 11px; line-height: 14px; margin-top: 2px; }
-  #map { position: absolute; top: 64px; left: 0; right: 0; bottom: 0; background: #e8e6df; }
+  #map { position: absolute; top: var(--topbar-height); left: 0; right: 0; bottom: 0; background: #e8e6df; }
   .leaflet-container { font-family: inherit; background: #e8e6df; }
   .school-dot {
     width: 26px; height: 26px; border-radius: 50% 50% 50% 0; border: 2.5px solid #fff;
@@ -87,7 +88,7 @@
     box-shadow: 0 4px 18px rgba(0,0,0,.2);
   }
   .panel {
-    position: absolute; z-index: 850; top: 72px; bottom: auto; max-height: calc(100vh - 96px);
+    position: absolute; z-index: 850; top: calc(var(--topbar-height) + var(--content-gap)); bottom: auto; max-height: calc(100vh - var(--topbar-height) - 32px);
     background: rgba(255,255,255,.98); border: 1px solid rgba(0,0,0,.04);
     box-shadow: 0 4px 24px rgba(0,0,0,.1);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -201,7 +202,7 @@
   }
   .legend span { display: inline-flex; align-items: center; gap: 6px; color: #6b7280; font-size: 12px; }
   .selection-chip {
-    position: absolute; top: 72px; left: 50%; transform: translateX(-50%);
+    position: absolute; top: calc(var(--topbar-height) + var(--content-gap)); left: 50%; transform: translateX(-50%);
     z-index: 940; display: none !important; align-items: center; gap: 10px;
     max-width: min(560px, calc(100vw - 28px)); min-height: 44px; padding: 5px 6px 5px 14px;
     border: 1px solid rgba(234,88,12,.28); border-radius: 10px; background: rgba(255,255,255,.98);
@@ -220,7 +221,7 @@
   }
   .selection-chip button:hover { background: #fff7ed; }
   .panel-toggle {
-    position: absolute; top: 72px; z-index: 790;
+    position: absolute; top: calc(var(--topbar-height) + var(--content-gap)); z-index: 790;
     height: 34px; padding: 0 10px; border: 1px solid #e5e7eb; border-radius: 8px;
     background: rgba(255,255,255,.96); box-shadow: 0 2px 10px rgba(0,0,0,.08);
     color: #374151; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
@@ -229,13 +230,13 @@
   #province-panel-toggle { left: 12px; }
   #school-panel-toggle { right: 12px; }
   .notice {
-    position: absolute; left: 16px; top: 76px; z-index: 840; max-width: 520px;
+    position: absolute; left: 16px; top: calc(var(--topbar-height) + 12px); z-index: 840; max-width: 520px;
     padding: 8px 10px; border-radius: 8px; background: rgba(255,251,235,.96); color: #92400e;
     border: 1px solid #fde68a; font-size: 12px; line-height: 1.45;
   }
   .summary-panel {
-    position: absolute; right: 16px; top: 76px; z-index: 845;
-    width: min(420px, calc(100vw - 32px)); max-height: calc(100vh - 116px); overflow: auto;
+    position: absolute; right: 16px; top: calc(var(--topbar-height) + 12px); z-index: 845;
+    width: min(420px, calc(100vw - 32px)); max-height: calc(100vh - var(--topbar-height) - 52px); overflow: auto;
     padding: 12px; border-radius: 10px; background: rgba(255,255,255,.97);
     border: 1px solid rgba(15,23,42,.08); box-shadow: 0 8px 24px rgba(15,23,42,.12);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -302,26 +303,41 @@
     .brand span { display: block; margin-top: 3px; max-width: calc(100vw - 24px); }
     .top-controls { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); width: 100%; }
     .select-field, .select-field.region { min-width: 0; }
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); width: 100%; gap: 6px; }
+    .stat { min-width: 0; height: 34px; padding: 4px 7px; }
+    .stat b { font-size: 14px; line-height: 14px; }
+    .stat small { font-size: 10px; line-height: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .stats .stat:nth-child(2) { display: none; }
-    #map { top: 140px; bottom: 0; }
-    .panel-toggle { top: 66px; }
     .province-panel { left: 8px; right: auto; width: calc(50vw - 12px); top: auto; bottom: 8px; height: calc(44vh - 14px); max-height: none; }
     .school-panel { right: 8px; width: calc(50vw - 12px); top: auto; bottom: 8px; height: calc(44vh - 14px); max-height: none; }
     .province-panel.collapsed, .school-panel.collapsed { transform: translateY(calc(100% + 18px)); opacity: 0; pointer-events: none; }
     .legend, .notice { display: none; }
-    .summary-panel { top: 152px; right: 10px; left: 10px; width: auto; max-height: 28vh; }
+    .summary-panel { right: 10px; left: 10px; width: auto; max-height: 28vh; }
     .detail { display: none; }
     .rank-filters { grid-template-columns: repeat(2, minmax(0,1fr)); }
     .classify-tabs { grid-template-columns: repeat(4, minmax(0,1fr)); }
   }
   @media (max-width: 620px) {
-    .stats { display: none; }
-    #map { top: 168px; }
-    .summary-panel { top: 178px; max-height: 30vh; }
-    .top-controls { grid-template-columns: 1fr; }
+    .topbar { padding: 7px 8px; gap: 7px; }
+    .brand h1 { font-size: 15px; }
+    .brand span { font-size: 11px; }
+    .top-controls { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; }
+    .select-field { gap: 2px; }
+    .select-field label { font-size: 11px; }
+    .top-select { height: 34px; font-size: 13px; padding-left: 8px; padding-right: 24px; }
+    .stats { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .stats .stat:first-child { display: none; }
+    .stat { height: 32px; padding: 4px 6px; }
+    .summary-panel { max-height: 30vh; }
     .province-panel { display: none; }
     .school-panel { left: 8px; right: 8px; width: auto; height: calc(44vh - 14px); }
     #province-panel-toggle { display: none; }
+  }
+  @media (max-width: 420px) {
+    .top-controls { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .stats .stat:nth-child(3) { display: none; }
+    .school-panel { height: calc(48vh - 14px); }
   }
 </style>
 </head>
@@ -445,6 +461,7 @@
     els.provinceCount.textContent = data.provinces.length;
     els.source.textContent = `${data.meta.source}，截至 ${data.meta.asOf}`;
     els.notice.textContent = data.meta.note;
+    initResponsiveLayout();
     renderTopSelects();
     renderClassifyTabs();
     renderFilters();
@@ -455,6 +472,26 @@
     bindEvents();
     initVisitorCount();
     update();
+  }
+
+  function initResponsiveLayout() {
+    const topbar = document.querySelector(".topbar");
+    if (!topbar) return;
+    let lastHeight = 0;
+    const sync = () => {
+      const height = Math.ceil(topbar.getBoundingClientRect().height);
+      if (!height || height === lastHeight) return;
+      lastHeight = height;
+      document.documentElement.style.setProperty("--topbar-height", `${height}px`);
+      if (map) window.requestAnimationFrame(() => map.invalidateSize());
+    };
+    sync();
+    if (window.ResizeObserver) {
+      new ResizeObserver(sync).observe(topbar);
+    } else {
+      window.addEventListener("resize", sync);
+      window.addEventListener("orientationchange", sync);
+    }
   }
 
   function initVisitorCount() {
