@@ -18,57 +18,65 @@
   #app { position: relative; width: 100vw; height: 100vh; }
   .topbar {
     position: absolute; top: 0; left: 0; right: 0; z-index: 1000;
-    min-height: 64px; padding: 8px 16px; display: grid; grid-template-columns: minmax(210px, 1fr) auto minmax(210px, 1fr); align-items: center; gap: 14px;
+    min-height: 64px; padding: 8px 16px;
+    display: grid; grid-template-columns: minmax(150px, max-content) minmax(0, 1fr) max-content;
+    align-items: center; gap: 14px;
     background: rgba(255,255,255,.96); border-bottom: 1px solid rgba(0,0,0,.06);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 1px 8px rgba(0,0,0,.04);
   }
-  .topbar-left { display: contents; }
-  .brand { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+  .topbar-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .brand { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
   .brand h1 {
-    margin: 0; font-size: 16px; font-weight: 600; letter-spacing: .5px; white-space: nowrap;
+    margin: 0; font-size: 18px; font-weight: 700; letter-spacing: .5px; white-space: nowrap;
     background: linear-gradient(135deg, #b91c1c 0%, #ea580c 100%);
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   }
-  .brand span { color: #6b7280; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .top-controls { display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 0; flex-wrap: wrap; }
-  .select-field {
-    display: grid; gap: 3px; min-width: 128px;
+  .brand span { color: #6b7280; font-size: 13px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .top-controls { display: flex; align-items: center; justify-content: center; gap: clamp(10px, 1vw, 18px); min-width: 0; max-width: 100%; overflow: hidden; }
+  .control-field { display: inline-flex; align-items: center; gap: 7px; min-width: 0; }
+  .control-field label { flex: 0 0 auto; font-size: 17px; font-weight: 900; line-height: 1; letter-spacing: 0; }
+  .control-field.region label { color: #1d4ed8; }
+  .control-field.owner label { color: #b45309; }
+  .control-field.tier label { color: #be123c; }
+  .control-field.search {
+    flex: 1 1 180px; min-width: 0;
+    background: transparent; border: 0; outline: 0; box-shadow: none; border-radius: 0;
   }
-  .select-field.region { min-width: 142px; }
-  .select-field label {
-    font-size: 12px; font-weight: 850; line-height: 1; letter-spacing: 0;
-  }
-  .select-field.region label { color: #1d4ed8; }
-  .select-field.owner label { color: #b45309; }
-  .select-field.tier label { color: #be123c; }
-  .select-field.search { min-width: 210px; flex: 1 1 240px; }
-  .select-field.search label { color: #9a3412; }
+  .control-field.search:focus-within { border: 0; outline: 0; box-shadow: none; }
+  .control-field.search label { color: #9a3412; }
   .top-select {
-    height: 38px; min-width: 0; border: 2px solid #e5e7eb; border-radius: 8px;
-    background: #fff; color: #1f2937; font: inherit; font-size: 15px; font-weight: 800;
+    height: 38px; min-width: 86px; max-width: 104px; border: 2px solid #e5e7eb; border-radius: 8px;
+    background: #fff; color: #1f2937; font: inherit; font-size: 16px; font-weight: 800;
     padding: 0 28px 0 9px; outline: none; cursor: pointer;
     box-shadow: 0 2px 8px rgba(0,0,0,.06);
   }
-  .select-field.region .top-select { border-color: #bfdbfe; background: #eff6ff; color: #1e40af; }
-  .select-field.owner .top-select { border-color: #fed7aa; background: #fff7ed; color: #9a3412; }
-  .select-field.tier .top-select { border-color: #fecdd3; background: #fff1f2; color: #9f1239; }
+  .control-field.region .top-select { border-color: #bfdbfe; background: #eff6ff; color: #1e40af; }
+  .control-field.owner .top-select { border-color: #fed7aa; background: #fff7ed; color: #9a3412; }
+  .control-field.tier .top-select { border-color: #fecdd3; background: #fff1f2; color: #9f1239; }
   .top-search-input {
     width: 100%; height: 38px; min-width: 0; border: 2px solid #fed7aa; border-radius: 8px;
-    background: #fff7ed; color: #1f2937; font: inherit; font-size: 14px; font-weight: 800;
-    padding: 0 11px; outline: none; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    background: #fff; color: #1f2937; font: inherit; font-size: 16px; font-weight: 800;
+    padding: 0 11px; outline: none; box-shadow: none;
+    -webkit-appearance: none; appearance: none;
   }
+  .top-search-input::-webkit-search-decoration,
+  .top-search-input::-webkit-search-cancel-button,
+  .top-search-input::-webkit-search-results-button,
+  .top-search-input::-webkit-search-results-decoration { display: none; }
   .top-search-input::placeholder { color: #9ca3af; font-weight: 600; }
-  .top-search-input:focus { border-color: #fb923c; background: #fff; box-shadow: 0 0 0 3px rgba(251,146,60,.14); }
+  .top-search-input:focus { border-color: #fb923c; background: #fff; box-shadow: none; }
   .top-select:focus { border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 3px rgba(59,130,246,.12); }
+  .top-select:hover { filter: brightness(.985); }
   .top-select option:disabled { color: #9ca3af; }
+  .topbar-right { display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; position: relative; z-index: 1; }
   .stats { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
   .stat {
-    min-width: 76px; height: 36px; padding: 5px 10px; border-radius: 8px;
+    min-width: 68px; height: 42px; padding: 5px 8px; border-radius: 8px;
     background: #f3f4f6; border: 1px solid #e5e7eb;
   }
-  .stat b { display: block; font-size: 15px; color: #b91c1c; line-height: 15px; }
-  .stat small { display: block; color: #6b7280; font-size: 11px; line-height: 14px; margin-top: 2px; }
+  .stat b { display: block; font-size: 16px; color: #b91c1c; line-height: 16px; }
+  .stat small { display: block; color: #6b7280; font-size: 12px; line-height: 14px; margin-top: 2px; }
   #map { position: absolute; top: var(--topbar-height); left: 0; right: 0; bottom: 0; background: #e8e6df; }
   .leaflet-container { font-family: inherit; background: #e8e6df; }
   .school-dot {
@@ -304,16 +312,20 @@
     border-radius: 50% 50% 50% 0; border: 2.5px solid #fff;
     box-shadow: 0 2px 7px rgba(0,0,0,.25); cursor: pointer;
   }
-  @media (max-width: 900px) {
-    .topbar { align-items: flex-start; padding: 8px 10px; gap: 8px; flex-wrap: wrap; }
-    .topbar { display: flex; }
-    .topbar-left { display: grid; gap: 8px; width: 100%; }
-    .brand { display: block; }
-    .brand span { display: block; margin-top: 3px; max-width: calc(100vw - 24px); }
-    .top-controls { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); width: 100%; }
-    .select-field, .select-field.region, .select-field.search { min-width: 0; }
-    .stats { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); width: 100%; gap: 6px; }
-    .stat { min-width: 0; height: 34px; padding: 4px 7px; }
+  @media (max-width: 1440px) {
+    .control-field label { display: none; }
+    .top-select { min-width: 84px; max-width: 100px; }
+    .top-search-input { min-width: 0; }
+  }
+  @media (max-width: 1180px) {
+    :root { --topbar-height: 86px; }
+    .topbar { grid-template-columns: minmax(120px, .32fr) minmax(560px, 1fr) auto; gap: 8px; padding: 8px 10px; }
+    .brand span { display: none; }
+    .top-controls { gap: clamp(8px, 1vw, 12px); }
+    .top-select { min-width: 78px; max-width: 92px; }
+    .top-search-input { min-width: 150px; }
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 6px; }
+    .stat { min-width: 64px; height: 34px; padding: 4px 7px; }
     .stat b { font-size: 14px; line-height: 14px; }
     .stat small { font-size: 10px; line-height: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .stats .stat:nth-child(2) { display: none; }
@@ -327,25 +339,41 @@
     .classify-tabs { grid-template-columns: repeat(4, minmax(0,1fr)); }
   }
   @media (max-width: 620px) {
-    .topbar { padding: 7px 8px; gap: 7px; }
+    :root { --topbar-height: 76px; }
+    .topbar {
+      min-height: 76px; padding: 6px 8px;
+      display: grid; grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center; gap: 6px;
+    }
+    .topbar-left { display: none; }
     .brand h1 { font-size: 15px; }
-    .brand span { font-size: 11px; }
-    .top-controls { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; }
-    .select-field { gap: 2px; }
-    .select-field label { font-size: 11px; }
+    .top-controls {
+      grid-column: 1; min-width: 0; justify-content: stretch; gap: 4px;
+      display: grid; grid-template-columns: minmax(72px, .78fr) minmax(72px, .78fr) minmax(78px, .82fr) minmax(82px, .82fr) minmax(118px, 1fr);
+    }
+    .topbar-right { grid-column: 2; gap: 5px; }
+    .control-field { min-width: 0; }
+    .control-field label { display: none; }
     .top-select { height: 34px; font-size: 13px; padding-left: 8px; padding-right: 24px; }
-    .top-search-input { height: 34px; font-size: 13px; padding: 0 8px; border-width: 1px; }
-    .stats { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .control-field .top-select { min-width: 0; max-width: none; width: 100%; }
+    .top-search-input { min-width: 0; height: 34px; font-size: 13px; padding: 0 8px; border-width: 1px; }
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(42px,1fr)); gap: 4px; }
     .stats .stat:first-child { display: none; }
-    .stat { height: 32px; padding: 4px 6px; }
+    .stat { min-width: 42px; height: 34px; padding: 4px 5px; }
     .summary-panel { max-height: 30vh; }
     .province-panel { display: none; }
     .school-panel { left: 8px; right: 8px; width: auto; height: calc(44vh - 14px); }
     #province-panel-toggle { display: none; }
   }
   @media (max-width: 420px) {
-    .top-controls { grid-template-columns: 1fr; }
-    .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    :root { --topbar-height: 76px; }
+    .topbar { grid-template-columns: minmax(146px, 1fr) auto; }
+    .top-controls {
+      grid-column: 1;
+      grid-template-columns: minmax(58px, .7fr) minmax(58px, .7fr) minmax(62px, .75fr) minmax(68px, .78fr) minmax(92px, 1fr);
+    }
+    .topbar-right { grid-column: 2; }
+    .stats { grid-template-columns: repeat(2, minmax(42px,1fr)); }
     .stats .stat:nth-child(3) { display: none; }
     .school-panel { height: calc(48vh - 14px); }
   }
@@ -359,34 +387,36 @@
         <h1>全国大学本科地图</h1>
         <span id="source-line">教育部全国普通高等学校名单</span>
       </div>
-      <div class="top-controls" aria-label="分类筛选">
-        <div class="select-field region">
-          <label for="province-select">省份</label>
-          <select id="province-select" class="top-select"></select>
-        </div>
-        <div class="select-field region">
-          <label for="city-select">城市</label>
-          <select id="city-select" class="top-select"></select>
-        </div>
-        <div class="select-field owner">
-          <label for="owner-select">办学性质</label>
-          <select id="owner-select" class="top-select"></select>
-        </div>
-        <div class="select-field tier">
-          <label for="tier-select">学校层次</label>
-          <select id="tier-select" class="top-select"></select>
-        </div>
-        <div class="select-field search">
-          <label for="top-school-search">搜索</label>
-          <input id="top-school-search" class="top-search-input" type="search" placeholder="搜索学校名称" autocomplete="off" />
-        </div>
+    </div>
+    <div class="top-controls" aria-label="分类筛选">
+      <div class="control-field region">
+        <label for="province-select">省份</label>
+        <select id="province-select" class="top-select"></select>
+      </div>
+      <div class="control-field region">
+        <label for="city-select">城市</label>
+        <select id="city-select" class="top-select"></select>
+      </div>
+      <div class="control-field owner">
+        <label for="owner-select">办学性质</label>
+        <select id="owner-select" class="top-select"></select>
+      </div>
+      <div class="control-field tier">
+        <label for="tier-select">学校层次</label>
+        <select id="tier-select" class="top-select"></select>
+      </div>
+      <div class="control-field search">
+        <label for="top-school-search">搜索</label>
+        <input id="top-school-search" class="top-search-input" type="search" placeholder="搜索学校名称" autocomplete="off" />
       </div>
     </div>
-    <div class="stats">
-      <div class="stat"><b id="total-count">0</b><small>本科院校</small></div>
-      <div class="stat"><b id="province-count">0</b><small>省级地区</small></div>
-      <div class="stat"><b id="visible-count">0</b><small>当前显示</small></div>
-      <div class="stat" title="线上由访问统计服务累计，离线时显示本机访问用户"><b id="busuanzi_value_site_uv">...</b><small>访问用户</small></div>
+    <div class="topbar-right">
+      <div class="stats" aria-label="当前地图统计">
+        <div class="stat"><b id="total-count">0</b><small>本科院校</small></div>
+        <div class="stat"><b id="province-count">0</b><small>省级地区</small></div>
+        <div class="stat"><b id="visible-count">0</b><small>当前显示</small></div>
+        <div class="stat" title="线上由访问统计服务累计，离线时显示本机访问用户"><b id="busuanzi_value_site_uv">...</b><small>访问用户</small></div>
+      </div>
     </div>
   </header>
   <div id="map"><div id="fallback-map" class="fallback-map"></div></div>
