@@ -648,6 +648,18 @@
     syncSchoolSearchControls();
     clearSelection(false);
     update();
+    focusSearchResult();
+  }
+
+  function focusSearchResult() {
+    if (!state.query) return;
+    const schools = filteredSchools();
+    if (!schools.length) return;
+    const query = state.query.toLowerCase();
+    const exact = schools.find(s => s.name.toLowerCase() === query);
+    const starts = schools.find(s => s.name.toLowerCase().startsWith(query));
+    const target = exact || starts || schools[0];
+    if (target) selectSchool(target.id, true);
   }
 
   function cityOptions() {
